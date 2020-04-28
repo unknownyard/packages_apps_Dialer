@@ -232,6 +232,9 @@ public class CallPendingActivity extends FragmentActivity
           public void onRestoreInstanceState(Bundle savedInstanceState) {}
 
           @Override
+          public void refreshMuteState() {}
+
+          @Override
           public void addCallClicked() {}
 
           @Override

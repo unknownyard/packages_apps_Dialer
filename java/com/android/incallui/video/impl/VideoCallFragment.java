@@ -306,30 +306,6 @@ public class VideoCallFragment extends Fragment
             updatePreviewOffView();
           }
         });
-
-    controls.addOnLayoutChangeListener(
-        new OnLayoutChangeListener() {
-          @Override
-          public void onLayoutChange(
-              View v,
-              int left,
-              int top,
-              int right,
-              int bottom,
-              int oldLeft,
-              int oldTop,
-              int oldRight,
-              int oldBottom) {
-            LogUtil.i("VideoCallFragment.onLayoutChange", "controls layout changed");
-            if (getActivity() != null && getView() != null) {
-              controls.removeOnLayoutChangeListener(this);
-              if (isInFullscreenMode) {
-                enterFullscreenMode();
-              }
-            }
-          }
-        });
-
     return view;
   }
 
@@ -358,12 +334,6 @@ public class VideoCallFragment extends Fragment
     inCallButtonUiDelegate.onInCallButtonUiReady(this);
 
     view.setOnSystemUiVisibilityChangeListener(this);
-
-    if (videoCallScreenDelegate.isFullscreen()) {
-        controls.setVisibility(View.INVISIBLE);
-        contactGridManager.getContainerView().setVisibility(View.INVISIBLE);
-        endCallButton.setVisibility(View.INVISIBLE);
-    }
   }
 
   @Override
@@ -397,6 +367,7 @@ public class VideoCallFragment extends Fragment
 
   @Override
   public void onVideoScreenStart() {
+    inCallButtonUiDelegate.refreshMuteState();
     videoCallScreenDelegate.onVideoCallScreenUiReady();
     getView().postDelayed(cameraPermissionDialogRunnable, CAMERA_PERMISSION_DIALOG_DELAY_IN_MILLIS);
     getView()
@@ -450,13 +421,6 @@ public class VideoCallFragment extends Fragment
         .translationY(0)
         .setInterpolator(linearOutSlowInInterpolator)
         .alpha(1)
-        .withStartAction(
-            new Runnable() {
-              @Override
-              public void run() {
-                controls.setVisibility(View.VISIBLE);
-              }
-            })
         .start();
 
     // Animate onHold to the shown state.
@@ -577,13 +541,13 @@ public class VideoCallFragment extends Fragment
       return new Point();
     }
     if (isLandscape()) {
-      int systemWindowInsetEnd =
+      int stableInsetEnd =
           getView().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL
-              ? getView().getRootWindowInsets().getSystemWindowInsetLeft()
-              : -getView().getRootWindowInsets().getSystemWindowInsetRight();
-      return new Point(systemWindowInsetEnd, 0);
+              ? getView().getRootWindowInsets().getStableInsetLeft()
+              : -getView().getRootWindowInsets().getStableInsetRight();
+      return new Point(stableInsetEnd, 0);
     } else {
-      return new Point(0, -getView().getRootWindowInsets().getSystemWindowInsetBottom());
+      return new Point(0, -getView().getRootWindowInsets().getStableInsetBottom());
     }
   }
 
@@ -732,17 +696,9 @@ public class VideoCallFragment extends Fragment
     videoCallScreenDelegate.getLocalVideoSurfaceTexture().attachToTextureView(previewTextureView);
     videoCallScreenDelegate.getRemoteVideoSurfaceTexture().attachToTextureView(remoteTextureView);
 
-    boolean updateRemoteOffView = false;
+    this.isRemotelyHeld = isRemotelyHeld;
     if (this.shouldShowRemote != shouldShowRemote) {
       this.shouldShowRemote = shouldShowRemote;
-      updateRemoteOffView = true;
-    }
-    if (this.isRemotelyHeld != isRemotelyHeld) {
-      this.isRemotelyHeld = isRemotelyHeld;
-      updateRemoteOffView = true;
-    }
-
-    if (updateRemoteOffView) {
       updateRemoteOffView();
     }
     if (this.shouldShowPreview != shouldShowPreview) {

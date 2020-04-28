@@ -361,6 +361,7 @@ public class RttChatFragment extends Fragment
 
   @Override
   public void onRttScreenStart() {
+    inCallButtonUiDelegate.refreshMuteState();
     rttCallScreenDelegate.onRttCallScreenUiReady();
     Activity activity = getActivity();
     Window window = getActivity().getWindow();
