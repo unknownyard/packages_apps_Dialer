@@ -45,10 +45,10 @@ import java.lang.annotation.RetentionPolicy;
 public @interface InCallButtonIds {
 
   int BUTTON_AUDIO = 0;
-  int BUTTON_DIALPAD = 1;
-  int BUTTON_HOLD = 2;
-  int BUTTON_SWAP = 3;
-  int BUTTON_MUTE = 4;
+  int BUTTON_MUTE = 1;
+  int BUTTON_DIALPAD = 2;
+  int BUTTON_HOLD = 3;
+  int BUTTON_SWAP = 4;
   int BUTTON_UPGRADE_TO_VIDEO = 5;
   int BUTTON_SWITCH_CAMERA = 6;
   int BUTTON_DOWNGRADE_TO_AUDIO = 7;

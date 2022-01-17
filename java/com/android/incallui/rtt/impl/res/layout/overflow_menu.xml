@@ -22,6 +22,13 @@
     android:paddingBottom="8dp"
     android:orientation="vertical">
   <com.android.incallui.rtt.impl.RttCheckableButton
+      android:id="@+id/menu_mute"
+      style="@style/RttButton"
+      android:drawableStart="@drawable/quantum_ic_mic_off_vd_theme_24"
+      android:text="@string/incall_label_mute"
+      app:contentDescriptionChecked="@string/incall_content_description_muted"
+      app:contentDescriptionUnchecked="@string/incall_content_description_unmuted"/>
+  <com.android.incallui.rtt.impl.RttCheckableButton
       android:id="@+id/menu_speaker"
       style="@style/RttButton"
       android:drawableStart="@drawable/quantum_ic_volume_up_vd_theme_24"
@@ -38,13 +45,6 @@
       style="@style/RttButton"
       android:drawableStart="@drawable/quantum_ic_add_call_vd_theme_24"
       android:text="@string/incall_label_add_call"/>
-  <com.android.incallui.rtt.impl.RttCheckableButton
-      android:id="@+id/menu_mute"
-      style="@style/RttButton"
-      android:drawableStart="@drawable/quantum_ic_mic_off_vd_theme_24"
-      android:text="@string/incall_label_mute"
-      app:contentDescriptionChecked="@string/incall_content_description_muted"
-      app:contentDescriptionUnchecked="@string/incall_content_description_unmuted"/>
   <com.android.incallui.rtt.impl.RttCheckableButton
       android:id="@+id/menu_swap_call"
       style="@style/RttButton"

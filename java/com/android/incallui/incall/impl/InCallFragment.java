@@ -221,6 +221,7 @@ public class InCallFragment extends Fragment
         FragmentUtils.getParent(this, InCallScreenDelegateFactory.class).newInCallScreenDelegate();
     Assert.isNotNull(inCallScreenDelegate);
 
+    buttonControllers.add(new ButtonController.MuteButtonController(inCallButtonUiDelegate));
     buttonControllers.add(new ButtonController.SpeakerButtonController(inCallButtonUiDelegate));
     buttonControllers.add(new ButtonController.DialpadButtonController(inCallButtonUiDelegate));
     buttonControllers.add(new ButtonController.HoldButtonController(inCallButtonUiDelegate));
@@ -236,7 +237,6 @@ public class InCallFragment extends Fragment
     buttonControllers.add(
         new ButtonController.SwitchToSecondaryButtonController(inCallScreenDelegate));
     buttonControllers.add(new ButtonController.CallRecordButtonController(inCallButtonUiDelegate));
-    buttonControllers.add(new ButtonController.MuteButtonController(inCallButtonUiDelegate));
 
     inCallScreenDelegate.onInCallScreenDelegateInit(this);
     inCallScreenDelegate.onInCallScreenReady();
